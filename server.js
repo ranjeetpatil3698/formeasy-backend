@@ -23,7 +23,7 @@ const server=app.listen(port,()=>{
 })
 
 process.on('unhandledRejection',err=>{
-    console.log(err.name,err.message);
+    console.log(err.name,err.message,err);
     console.log('Unhandled Rejection ');
    
     server.close(()=>{

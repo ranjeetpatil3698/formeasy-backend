@@ -14,7 +14,7 @@ const createSendToken=(user,statuscode,req,res)=>{
 
     const cookieOptions={
         expires:new Date(Date.now()+process.env.JWT_COOKIE_EXPIRES_IN*24*60*60*1000),
-        httpOnly:true
+        httpOnly:false
     }
 
     res.cookie('jwt',token,cookieOptions);
@@ -28,8 +28,14 @@ const createSendToken=(user,statuscode,req,res)=>{
 }
 
 exports.signup=async (req,res,next)=>{
+   
     try{
     const {name,email,password,passwordConfirm}=req.body;
+    if(!email|| !name || !password || !passwordConfirm){
+        res.send(400).json({
+            data:"please provide  all the required data"
+        })
+    }
     const newUser=await User.create({
         name,email,password,passwordConfirm
     });
@@ -37,7 +43,11 @@ exports.signup=async (req,res,next)=>{
     createSendToken(newUser,201,req,res);
     }catch(err){
         console.log(err)
-        next(new createError[500](["Internal server error"]))
+        res.send(500).json({
+            data:"please provide  all the required data",
+            message:err
+        })
+        // next(new createError[500](["Internal server error"]))
     }
 }
 
@@ -59,15 +69,17 @@ exports.login=async (req,res,next)=>{
             message:"user doesn't exist or incorrect password is incorrect"
         })
         // return next(new createError[404](["no user found"]))
+    }else{
+        createSendToken(user,200,req,res);
     }
 
-    createSendToken(user,200,req,res);
+    
 
     }catch(err){
         console.log(err)
-        res.status(500).json({
-            message:"Internal server error try again later"
-        })
+        // res.status(500).json({
+        //     message:"Internal server error try again later"
+        // })
         // return next(new createError[404](["no user found"]))
     }
 }
@@ -78,10 +90,10 @@ exports.protect=async (req,res,next)=>{
 
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
     token=req.headers.authorization.split(' ')[1] 
-    console.log("token form the header ",token)
+    // console.log("token form the header ",token)
     }else if(req.cookies.jwt){
         token=req.cookies.jwt;
-        // console.log("token form the cookie ",token)
+         console.log("token form the cookie ",token)
     }
 
     if(!token){
@@ -91,6 +103,7 @@ exports.protect=async (req,res,next)=>{
         // return next(new createError[401](["No token found"]))
     }
 
+        
     
     const decoded=await promisify(jwt.verify)(token,process.env.JWT_SECRET);
     // console.log("decoded token ",decoded);

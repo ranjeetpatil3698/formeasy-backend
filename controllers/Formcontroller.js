@@ -5,13 +5,13 @@ let Response=require('../models/responseModel');
 
 exports.createform=async (req,res,next)=>{
     try{
-    const {bodyname,formelements,data}=req.body;
+    const {formname,formelements, formdetails}=req.body;
     const {user}=req;
     const newform=await Form.create({
-        fname:bodyname,
+        fname:formname,
         formelements,
         userid:user._id,
-        data
+        data: formdetails
     })
     const {_id,fname}=newform;
 
@@ -108,4 +108,20 @@ exports.removefile=async (req,res,next)=>{
         })
         // return next(new createError[501](["INTERNAL ERROR"]))
     }
+}
+
+exports.getform=async (req,res,next)=>{
+    try{
+        const{url}=req.params;
+        const arr=req.body;
+        const data=await Form.findOne({formurl:url});
+        res.status(200).json({
+            data
+        })
+    }catch(err){
+        console.log(err)
+        res.status(500).json({
+            message:"Internal server error try again later"
+        })
+}
 }
