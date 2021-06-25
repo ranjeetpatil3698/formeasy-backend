@@ -5,7 +5,7 @@ const cookieParser=require('cookie-parser')
 const fileUpload = require('express-fileupload');
 const app=express();
 
-const {signup,login,oneuser,protect}=require('./controllers/Authcontroller');
+const {signup,login,oneuser,protect,checkuser}=require('./controllers/Authcontroller');
 const {createform,sendresponse,sendfile,removefile,getform}=require('./controllers/Formcontroller')
 const {getAllFormsOfUser,getAllResponsesOfForm}=require('./controllers/Usercontroller');
 
@@ -19,12 +19,13 @@ app.use(cors({
 }))
 app.use(express.json());
 app.use(cookieParser());
-app.use(fileUpload())
 
-app.post("/signup",signup)
+
+app.post("/signup",checkuser,signup)
 app.post("/login",login)
 app.post("/sendresponse/:url",sendresponse)
 app.get("/getform/:url",getform)
+app.use(fileUpload())
 app.post("/sendfile",sendfile)
 app.get("/removefile",removefile)
 app.use(protect)
