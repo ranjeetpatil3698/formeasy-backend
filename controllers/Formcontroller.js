@@ -40,11 +40,11 @@ exports.createform=async (req,res,next)=>{
 }
 
 exports.sendresponse=async (req,res,next)=>{
+    const {formdetails}=req.body;
     try{
         const{url}=req.params;
-        const arr=req.body;
+        const arr=formdetails;
         const {_id}=await Form.findOne({formurl:url})
-          
         const addedResponse=await Response.findOneAndUpdate(
             {formid:_id},
             {$push:{
@@ -56,7 +56,8 @@ exports.sendresponse=async (req,res,next)=>{
             {new:true,useFindAndModify: false}
             ) 
         res.status(200).json({
-            status:"ok"
+            status:"ok",
+            addedResponse
         })
     }catch(err){
         console.log(err)
@@ -70,6 +71,7 @@ exports.sendresponse=async (req,res,next)=>{
 
 
 exports.sendfile=async (req,res,next)=>{
+    
     try{
         sampleFile = req.files.File;
         uploadPath = __dirname + '/uploadedfiles/' + sampleFile.name;
@@ -89,17 +91,20 @@ exports.sendfile=async (req,res,next)=>{
 
 exports.removefile=async (req,res,next)=>{
     try{
-        let filename = `${__dirname}/uploadedfiles/${req.body.File}`;
+        const {name}=req.params
+        let filename = `${__dirname}/uploadedfiles/${name}`;
         fs.unlink(filename, (err) => {
         if (err) {
             res.status(400).json({
                 message:"File does not exist or it's deleted already"
             })
+            return;
         }
         console.log('File deleted successfully');
         res.status(200).json({
             deleted:"done"
         })
+        return
     });		
     }catch(err){
         console.log(err)

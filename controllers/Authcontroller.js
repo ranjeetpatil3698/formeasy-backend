@@ -35,11 +35,12 @@ exports.checkuser = async (req, res, next) => {
 //   console.log("inside check user", user);
   if (user) {
     res.status(200).json({
+      exist:true,
       error: "user with email already exists",
     });
     return;
   }
-  next()
+  
 };
 
 exports.signup = async (req, res, next) => {
