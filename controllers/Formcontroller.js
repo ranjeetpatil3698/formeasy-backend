@@ -2,7 +2,7 @@ var createError = require('http-errors');
 var fs = require('fs');
 let Form=require('../models/formModel');
 let Response=require('../models/responseModel');
-
+let path=require('path')
 exports.createform=async (req,res,next)=>{
     try{
     const {formname,formelements, formdetails}=req.body;
@@ -74,7 +74,9 @@ exports.sendfile=async (req,res,next)=>{
     
     try{
         sampleFile = req.files.File;
-        uploadPath = __dirname + '/uploadedfiles/' + sampleFile.name;
+        //uploadPath = __dirname + '/uploadedfiles/' + sampleFile.name;
+        // uploadPath = __dirname + '/uploadedfiles/' + sampleFile.name;
+        uploadPath=path.join(__dirname,"../uploadedfiles/",sampleFile.name);
         sampleFile.mv(uploadPath, function(err) {
             if (err)
                 res.status(500).json({err:err.message});
@@ -92,9 +94,11 @@ exports.sendfile=async (req,res,next)=>{
 exports.removefile=async (req,res,next)=>{
     try{
         const {name}=req.params
-        let filename = `${__dirname}/uploadedfiles/${name}`;
-        fs.unlink(filename, (err) => {
+        
+        let uploadPath=path.join(__dirname,"../uploadedfiles/",name);
+        fs.unlink(uploadPath, (err) => {
         if (err) {
+            console.log(err)
             res.status(400).json({
                 message:"File does not exist or it's deleted already"
             })
