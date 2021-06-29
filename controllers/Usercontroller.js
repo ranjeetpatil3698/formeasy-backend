@@ -28,16 +28,17 @@ exports.getAllResponsesOfForm=async(req,res,next)=>{
         const {id}=req.params;
 
         const allResponses=await Response.find({formid:id});
-
         res.status(200).json({
             allResponses
         })
+        return;
 
     }catch(err){
         console.log(err)
         res.status(500).json({
             message:"Internal server error try again later"
         })
+        return;
         // return next(new createError[501](["INTERNAL ERROR"]))
     }
 
