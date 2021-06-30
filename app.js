@@ -32,6 +32,6 @@ app.use(protect)
 app.get("/getuser",oneuser)
 app.post("/createform",createform)
 app.get("/getallforms",getAllFormsOfUser)
-app.get("/getAllResponses/:id",getAllResponsesOfForm)
+app.get("/getAllResponses/:url",getAllResponsesOfForm)
 
 module.exports=app;

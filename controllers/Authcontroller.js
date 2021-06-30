@@ -27,6 +27,7 @@ const createSendToken = (user, statuscode, req, res) => {
     //     user
     // }
   });
+  return;
 };
 
 exports.checkuser = async (req, res, next) => {
@@ -84,6 +85,7 @@ exports.login = async (req, res, next) => {
       res.status(400).json({
         message: "please give email or password",
       });
+      return;
       // return next(new createError[401](["please give email or password"]));
     }
 
@@ -93,6 +95,7 @@ exports.login = async (req, res, next) => {
       res.status(400).json({
         message: "user doesn't exist or incorrect password is incorrect",
       });
+      return;
       // return next(new createError[404](["no user found"]))
     } else {
       createSendToken(user, 200, req, res);
@@ -124,6 +127,7 @@ exports.protect = async (req, res, next) => {
     res.status(401).json({
       message: "Youre not authorized please sign in or log in",
     });
+    return;
     // return next(new createError[401](["No token found"]))
   }
 
@@ -137,6 +141,7 @@ exports.protect = async (req, res, next) => {
     res.status(400).json({
       message: "No such user exists please sign up",
     });
+    return;
     // return next(new createError[401](["No user found"]));
   }
 

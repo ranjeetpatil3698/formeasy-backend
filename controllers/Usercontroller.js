@@ -25,9 +25,11 @@ exports.getAllFormsOfUser=async(req,res,next)=>{
 
 exports.getAllResponsesOfForm=async(req,res,next)=>{
     try{
-        const {id}=req.params;
+        const {url}=req.params;
 
-        const allResponses=await Response.find({formid:id});
+        const {_id}=await Form.findOne({formurl:url})
+        const allResponses=await Response.find({formid:_id});
+
         res.status(200).json({
             allResponses
         })

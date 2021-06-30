@@ -59,6 +59,7 @@ exports.sendresponse=async (req,res,next)=>{
             status:"ok",
             addedResponse
         })
+        console.log("added response: ",addedResponse)
     }catch(err){
         console.log(err)
         res.status(500).json({
