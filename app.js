@@ -5,7 +5,7 @@ const cookieParser=require('cookie-parser')
 const fileUpload = require('express-fileupload');
 const app=express();
 
-const {signup,login,oneuser,protect,checkuser}=require('./controllers/Authcontroller');
+const {signup,login,oneuser,protect,checkuser,logout}=require('./controllers/Authcontroller');
 const {createform,sendresponse,sendfile,removefile,getform}=require('./controllers/Formcontroller')
 const {getAllFormsOfUser,getAllResponsesOfForm}=require('./controllers/Usercontroller');
 
@@ -33,5 +33,6 @@ app.get("/getuser",oneuser)
 app.post("/createform",createform)
 app.get("/getallforms",getAllFormsOfUser)
 app.get("/getAllResponses/:url",getAllResponsesOfForm)
+app.get("/logout",logout)
 
 module.exports=app;

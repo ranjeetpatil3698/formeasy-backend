@@ -6,6 +6,7 @@ let path=require('path')
 exports.createform=async (req,res,next)=>{
     try{
     const {formname,formelements, formdetails}=req.body;
+    // console.log("res.cookie createform",req.cookies.jwt)
     const {user}=req;
     const newform=await Form.create({
         fname:formname,
@@ -41,6 +42,7 @@ exports.createform=async (req,res,next)=>{
 
 exports.sendresponse=async (req,res,next)=>{
     const {formdetails}=req.body;
+    
     try{
         const{url}=req.params;
         const arr=formdetails;
