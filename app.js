@@ -6,7 +6,7 @@ const fileUpload = require('express-fileupload');
 const app=express();
 
 const {signup,login,oneuser,protect,checkuser,logout}=require('./controllers/Authcontroller');
-const {createform,sendresponse,sendfile,removefile,getform}=require('./controllers/Formcontroller')
+const {createform,sendresponse,sendfile,removefile,getform,getfile}=require('./controllers/Formcontroller')
 const {getAllFormsOfUser,getAllResponsesOfForm}=require('./controllers/Usercontroller');
 
 if(process.env.NODE_ENV==='development'){
@@ -34,5 +34,6 @@ app.post("/createform",createform)
 app.get("/getallforms",getAllFormsOfUser)
 app.get("/getAllResponses/:url",getAllResponsesOfForm)
 app.get("/logout",logout)
+app.get("/viewfile/:filename",getfile)
 
 module.exports=app;

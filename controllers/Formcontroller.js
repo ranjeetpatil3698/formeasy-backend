@@ -61,7 +61,7 @@ exports.sendresponse=async (req,res,next)=>{
             status:"ok",
             addedResponse
         })
-        console.log("added response: ",addedResponse)
+        // console.log("added response: ",addedResponse)
     }catch(err){
         console.log(err)
         res.status(500).json({
@@ -136,4 +136,24 @@ exports.getform=async (req,res,next)=>{
             message:"Internal server error try again later"
         })
 }
+}
+
+exports.getfile=async (req,res)=>{
+    const{filename}=req.params;
+    const nums=filename.split(".").length
+    const filetype=filename.split(".")[nums-1]
+    let finalPath=path.join(__dirname,"../uploadedfiles/",filename);
+    fs.readFile(finalPath, function (err, data) {
+        if (err) { 
+            console.log(err);
+            res.status(500).json({
+            message:"Internal Error"
+        })
+        return;
+     }
+     console.log(data)
+        res.writeHead(200, { 'Content-Type': `application/${filetype}` });
+        // console.log(data)
+        res.end(data);
+    })
 }
