@@ -30,7 +30,11 @@ const formSchema=new mongoose.Schema({
         type:Number,
         default:0
     },
-    formurl:String
+    formurl:String,
+    visible:{
+        type:Boolean,
+        default:true
+    }
 });
 
 

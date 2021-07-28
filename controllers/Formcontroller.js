@@ -128,6 +128,13 @@ exports.getform=async (req,res,next)=>{
         const{url}=req.params;
         const arr=req.body;
         const data=await Form.findOne({formurl:url});
+        const {visible}=data;
+        if(!visible){
+            res.status(200).json({
+                message:"Form Link is expired contact to the owner of this form😢😢"
+            })
+            return;
+        }
         await Form.updateOne({formurl:url},{$inc:{totalviews:1}})
         res.status(200).json({
             data
@@ -158,4 +165,53 @@ exports.getfile=async (req,res)=>{
         // console.log(data)
         res.end(data);
     })
+}
+
+exports.deleteform=async (req,res)=>{
+    const {id}=req.params;
+
+    try{
+        Form.deleteOne({_id:id},function(err,suc){
+            if(err){
+                console.log(err)
+                res.status(500).json({
+                    message:err
+                })
+            }
+            res.status(200).json({
+                message:"Delete successfull"
+            })
+        });
+        
+    }catch(err){
+        console.log(err)
+        res.status(500).json({
+            message:"Internal server error try again later"
+        })
+    }  
+}
+
+exports.changestatus=async(req,res)=>{
+    const {url}=req.params;
+    const {status}=req.body;
+    console.log(status)
+    try{
+        await Form.updateOne({formurl:url},{$set:{visible:status}},function(err,success){
+            if(err){
+                console.log(err)
+                res.status(500).json({
+                    message:err
+                })
+            }
+            res.status(200).json({
+                message:"update successfull"
+            })
+        })
+
+    }catch(err){
+        console.log(err)
+        res.status(500).json({
+            message:"Internal server error try again later"
+        })
+    }
 }

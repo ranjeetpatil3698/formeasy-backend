@@ -7,7 +7,7 @@ const app=require('./app');
 
 console.log(process.env.NODE_ENV)
 
-const DB=process.env.DATABASE_LOCAL;
+const DB=process.env.DATABASE_CLOUD;
 
 mongoose.connect(DB,{
     useNewUrlParser: true,
