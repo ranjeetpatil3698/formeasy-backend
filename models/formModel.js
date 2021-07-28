@@ -22,7 +22,7 @@ const formSchema=new mongoose.Schema({
             formtype:String,
         }
     ],
-    openrates:{
+    totalresponses:{
         type:Number,
         default:0
     },

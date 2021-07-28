@@ -57,6 +57,7 @@ exports.sendresponse=async (req,res,next)=>{
             }},
             {new:true,useFindAndModify: false}
             ) 
+            await Form.updateOne({formurl:url},{$inc:{totalresponses:1}})
         res.status(200).json({
             status:"ok",
             addedResponse
@@ -127,6 +128,7 @@ exports.getform=async (req,res,next)=>{
         const{url}=req.params;
         const arr=req.body;
         const data=await Form.findOne({formurl:url});
+        await Form.updateOne({formurl:url},{$inc:{totalviews:1}})
         res.status(200).json({
             data
         })

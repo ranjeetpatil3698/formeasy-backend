@@ -6,7 +6,7 @@ var createError = require('http-errors');
 exports.getAllFormsOfUser=async(req,res,next)=>{
     try{
         const {_id}=req.user;
-        // console.log("res.cookie get all forms",req.cookies.jwt)
+        // console.log("res.cookie get all forms",req.headers.authorization);
         const allForms=await Form.find({userid:_id});
 
         res.status(200).json({

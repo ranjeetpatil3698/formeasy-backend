@@ -28,7 +28,8 @@ const createSendToken = (user, statuscode, req, res) => {
     status: "success",
     data:{
         name,
-        email
+        email,
+        token
     }
   });
   return;
