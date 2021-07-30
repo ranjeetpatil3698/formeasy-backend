@@ -4,6 +4,10 @@ const dotenv=require('dotenv');
 dotenv.config({path:'./config.env'})
 const app=require('./app');
 
+var fs = require('fs');
+var dir = './uploadedfiles';
+
+
 
 console.log(process.env.NODE_ENV)
 
@@ -15,6 +19,10 @@ mongoose.connect(DB,{
     useFindAndModify: true,
     useUnifiedTopology: true
 }).then(()=>console.log("DB connection Successfull"));
+
+if (!fs.existsSync(dir)){
+  fs.mkdirSync(dir);
+}
 
 const port = process.env.PORT;
 
