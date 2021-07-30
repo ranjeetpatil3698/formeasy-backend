@@ -29,6 +29,7 @@ app.post("/signup",signup)
 app.post("/login",login)
 app.post("/sendresponse/:url",sendresponse)
 app.get("/getform/:url",getform)
+app.get("/viewfile/:filename",getfile)
 
 app.post("/sendfile",sendfile)
 app.get("/removefile/:name",removefile)
@@ -38,7 +39,7 @@ app.post("/createform",createform)
 app.get("/getallforms",getAllFormsOfUser)
 app.get("/getAllResponses/:url",getAllResponsesOfForm)
 app.get("/logout",logout)
-app.get("/viewfile/:filename",getfile)
+
 app.patch("/deleteform/:id",deleteform)
 app.patch("/changestatus/:url",changestatus)
 
