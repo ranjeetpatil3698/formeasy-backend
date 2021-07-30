@@ -128,6 +128,12 @@ exports.getform=async (req,res,next)=>{
         const{url}=req.params;
         const arr=req.body;
         const data=await Form.findOne({formurl:url});
+        if(!data){
+            res.status(400).json({
+                message:"Form Does not exist😢😢"
+            })
+            return; 
+        }
         const {visible}=data;
         if(!visible){
             res.status(200).json({
