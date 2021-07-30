@@ -18,7 +18,11 @@ app.use(cors({
     credentials:true
 }))
 
-
+app.get("/status",(req,res)=>{
+    res.status(200).json({
+        Message:"api is up"
+    })
+})
 
 
 app.use(express.json());
